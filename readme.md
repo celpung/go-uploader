@@ -94,7 +94,7 @@ func main() {
 
 ## Contributing
 
-Contributions are welcome! To contribute to cexam, follow these steps:
+Contributions are welcome! To contribute to go-uploader, follow these steps:
 
 1. Fork this repository.
 2. Create a new branch: git checkout -b new-feature
