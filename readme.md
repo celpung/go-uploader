@@ -1,9 +1,16 @@
-# GoUploader
+# go-uploader
 
 [![Static Badge](https://img.shields.io/badge/Go-blue.svg)](https://go.dev/) [![Static Badge](https://img.shields.io/badge/v1.0.0-blue.svg)](https://go.dev/)
 
+Go-uploader is a Go package for handling file uploads in HTTP requests. It simplifies the process of uploading single or multiple files and saving them to a specified directory.
 
-Go-uploader is a Go package for handling file uploads in HTTP requests. It provides functions to upload single or multiple files and save them to a specified directory.
+## Installation
+
+You can install `go-uploader` using the `go get` command:
+
+```bash
+go get github.com/celpung/go-uploader
+```
 
 ## Usage
 
