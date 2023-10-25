@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
+
+	"github.com/google/uuid"
 )
 
 type UploadedFile struct {
@@ -38,7 +41,9 @@ func Single(r *http.Request, directory string, fieldName string) (*UploadedFile,
 	}
 	defer file.Close()
 
-	destFile, err := os.Create(filepath.Join(directory, headers.Filename))
+	newFilename := generateFilename(headers.Filename)
+
+	destFile, err := os.Create(filepath.Join(directory, newFilename))
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +55,7 @@ func Single(r *http.Request, directory string, fieldName string) (*UploadedFile,
 	}
 
 	uploadedFile := &UploadedFile{
-		Filename: fmt.Sprintf("%s/%s", directory, headers.Filename),
+		Filename: newFilename,
 	}
 
 	return uploadedFile, nil
@@ -80,7 +85,9 @@ func Multiple(r *http.Request, directory string, fieldName string) ([]UploadedFi
 		}
 		defer file.Close()
 
-		destFile, err := os.Create(filepath.Join(directory, headers.Filename))
+		newFilename := generateFilename(headers.Filename)
+
+		destFile, err := os.Create(filepath.Join(directory, newFilename))
 		if err != nil {
 			return nil, err
 		}
@@ -92,9 +99,17 @@ func Multiple(r *http.Request, directory string, fieldName string) ([]UploadedFi
 		}
 
 		uploadedFiles = append(uploadedFiles, UploadedFile{
-			Filename: fmt.Sprintf("%s/%s", directory, headers.Filename),
+			Filename: newFilename,
 		})
 	}
 
 	return uploadedFiles, nil
+}
+
+// name generator
+func generateFilename(originalFilename string) string {
+	ext := filepath.Ext(originalFilename)
+	currentDateTime := time.Now().Format("20060102150405")
+	uid := uuid.New().String()
+	return fmt.Sprintf("%s_%s%s", currentDateTime, uid, ext)
 }
